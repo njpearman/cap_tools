@@ -22,9 +22,10 @@ namespace :logrotate do
 				puts 'Found logrotate config'
 				execute 'cat', log_config_file
 			else
+        temp_location = "/tmp/#{fetch(:application)}"
 				puts 'Creating logrotate config'
-				upload! "config/#{fetch(:application)}.logrotate", 
-				execute 'sudo', 'mv', "/tmp/#{fetch(:application)}", '/etc/logrotate.d/'
+				upload! "config/#{fetch(:application)}.logrotate", temp_location
+				sudo 'mv', temp_location, '/etc/logrotate.d/'
       end
     end
   end
