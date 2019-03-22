@@ -3,7 +3,7 @@ namespace :foreman do
   task :install do
     on roles(:app) do
       rbenv_exec = "#{fetch(:rbenv_path)}/bin/rbenv exec".split
-      execute rbenv_exec + ['gem', 'install', 'foreman']
+      execute *(rbenv_exec + ['gem', 'install', 'foreman'])
     end
   end
 
