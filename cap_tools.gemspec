@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "My Capistrano toolset for building and deploying Rails apps. Also useful for reference!"
   s.authors     = ["NJ Pearman"]
   s.email       = 'n.pearman@gmail.com'
-  s.files       = ["lib/cap_tools.rb", "lib/cap_tools/tasks/tasks.rake"]
+  s.files       = %x(git ls-files lib).split "\n"
   s.homepage    =
     'http://github.com./njpearman/cap_tools'
   s.license       = 'MIT'
