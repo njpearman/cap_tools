@@ -1,4 +1,5 @@
 namespace :logrotate do
+  desc 'Displays logrotate status for current app'
   task :status do
     on roles(:app) do
       log_config_file = "/etc/logrotate.d/#{fetch(:application)}"
@@ -13,6 +14,7 @@ namespace :logrotate do
     end
   end
 
+  desc 'Creates logrotate config for current app'
   task :create do
     on roles(:app) do
       log_config_file = "/etc/logrotate.d/#{fetch(:application)}"
