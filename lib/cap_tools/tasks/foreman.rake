@@ -1,9 +1,12 @@
 namespace :foreman do
-  desc "Installs foreman"
+  def rbenv_exec
+    @rbenv_exec ||= "#{fetch(:rbenv_path)}/bin/rbenv exec".split
+  end
+
+  desc "Installs the latest foreman"
   task :install do
     on roles(:app) do
-      rbenv_exec = "#{fetch(:rbenv_path)}/bin/rbenv exec".split
-      execute *(rbenv_exec + ['gem', 'install', 'foreman'])
+      execute *(rbenv_exec + %w(gem install foreman))
     end
   end
 
@@ -11,8 +14,6 @@ namespace :foreman do
   task :export do
     on roles(:app) do |app|
       within current_path do
-        rbenv_exec = "#{fetch(:rbenv_path)}/bin/rbenv exec".split
-
         foreman_export = %w(foreman export)
 
         arguments = [
