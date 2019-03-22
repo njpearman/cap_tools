@@ -1,4 +1,12 @@
 namespace :foreman do
+  desc "Installs foreman"
+  task :install do
+    on roles(:app) do
+      rbenv_exec = "#{fetch(:rbenv_path)}/bin/rbenv exec".split
+      execute rbenv_exec + ['gem', 'install', 'foreman']
+    end
+  end
+
   desc "Export the Procfile to Ubuntu's systemd scripts"
   task :export do
     on roles(:app) do |app|
