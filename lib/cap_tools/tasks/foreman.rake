@@ -3,7 +3,19 @@ namespace :foreman do
   task :export do
     on roles(:app) do |app|
       within current_path do
-        sudo "#{fetch(:rbenv_path)}/bin/rbenv", 'exec', 'foreman', 'export', "systemd /etc/systemd/system/ -a #{fetch(:application)} -u #{app.user} -l /var/#{fetch(:application)}/log -d #{current_path}"
+        rbenv_exec = "#{fetch(:rbenv_path)}/bin/rbenv exec".split
+
+        foreman_export = %w(foreman export)
+
+        arguments = [
+          "systemd", "/etc/systemd/system/",
+          "-a", fetch(:application),
+          "-u", app.user,
+          "-l", "/var/#{fetch(:application)}/log",
+          "-d", current_path
+        ]
+
+        sudo *(rbenv_exec + foreman_export + arguments)
         sudo 'mv', "/etc/systemd/system/#{fetch(:application)}-web\\@.service", "/etc/systemd/system/#{fetch(:application)}-web.service"
         # do the daemon reloading thing
         sudo '/bin/systemctl', 'daemon-reload'
